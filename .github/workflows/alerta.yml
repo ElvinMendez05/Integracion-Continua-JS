@@ -1,4 +1,4 @@
-name: Alerta Hola Mundo
+name: Alerta Integración Continua JS
 
 on:
   push:
@@ -10,12 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      - name: Checkout del código
+        uses: actions/checkout@v3
 
-    - name: Ejecutar Hola Mundo
-      run: node index.js
+      - name: Ejecutar index.js
+        run: node index.js
 
-    - name: Enviar notificación a ntfy.sh
-      run: |
-        curl -d "Se ha hecho push a main en el repositorio Hola Mundo" https://ntfy.sh/devops-itla
+      - name: Enviar notificación a ntfy.sh
+        run: |
+          COMMIT_HASH=$(git rev-parse --short HEAD)
+          AUTHOR=$(git log -1 --pretty=format:'%an')
+          MESSAGE=$(git log -1 --pretty=format:'%s')
+
+          curl -d $'🚀 CI/CD - 
+            Integración Continua JS\n✅ BUILD EXITOSO\n\n
+            👨‍🎓Estudiante: Elvin Mendez (20240104)\n
+            📚Curso: Integración Continua\n
+            👨‍🏫 Profesor: Elvys Cruz\n\n
+            📂 Repositorio: ElvinMendez05/Integracion-Continua-JS\n
+            🌿 Rama: main\n📝 Commit: '"$COMMIT_HASH"$'\n
+            ✍️ Autor: '"$AUTHOR"$'\n
+            💬 Mensaje: '"$MESSAGE"$'\n\n
+            🔗 Ver detalles: https://github.com/ElvinMendez05/Integracion-Continua-JS/actions/runs/\n
+            🏷️ Etiquetas: github, ci, devops, itla' https://ntfy.sh/devops-itla
