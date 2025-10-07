@@ -1,0 +1,21 @@
+name: Alerta Hola Mundo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Ejecutar Hola Mundo
+      run: node index.js
+
+    - name: Enviar notificación a ntfy.sh
+      run: |
+        curl -d "Se ha hecho push a main en el repositorio Hola Mundo" https://ntfy.sh/devops-itla
